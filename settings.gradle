@@ -1,1 +1,1 @@
-include ':coordinate'
+rootProject.name = 'ar-coordinate'

@@ -77,8 +77,8 @@ public class MathUtil {
   }
 
   /**
-   * Returns x if x <= y, or x-y if not. While this utility performs a role similar to a modulo
-   * operation, it assumes x >=0 and that x < 2y.
+   * Returns x if x &lt;= y, or x-y if not. While this utility performs a role similar to a modulo
+   * operation, it assumes x &gt;=0 and that x &lt; 2y.
    */
   public static float quickModulo(float x, float y) {
     if (x > y) return x - y;

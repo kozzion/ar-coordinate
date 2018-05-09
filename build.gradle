@@ -8,13 +8,116 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.2'
-  //      classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.0'
+		classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
     }
 }
 
-allprojects {
-    repositories {
-        jcenter()
+repositories {
+    google()
+    jcenter()
+}
+
+group = 'com.kozzion.ar'
+version = '1.0.4'
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+android {
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 27
+        versionCode 4
+        versionName "1.0.4"
     }
-//    apply plugin: 'com.github.dcendents.android-maven'
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+
+def siteUrl = 'https://github.com/kozzion/ar-coordinate'
+def gitUrl = 'https://github.com/kozzion/ar-coordinate.git'
+
+bintray {
+    user = btuser
+    key =  btkey
+
+    configurations = ['archives'] //When uploading configuration files
+    pkg {
+        repo = 'ar'
+        name = 'coordinate'
+        desc = 'kozzion ar library for coordinate conversions'
+        websiteUrl = siteUrl
+        issueTrackerUrl = 'https://github.com/kozzion/ar-coordinate.git/issues'
+        vcsUrl = gitUrl
+        licenses = ['Apache-2.0']
+        labels = ['aar', 'ar', 'android']
+        publicDownloadNumbers = true
+    }
+}
+
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                packaging 'aar'
+                name 'kozzion ar library for coordinate conversions'
+                url siteUrl
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'kozzion'
+                        name 'Jaap Oosterbroek'
+                        email 'jaap.oosterbroek@gmail.com'
+                    }
+                }
+                scm {
+                    connection 'https://github.com/kozzion/ar-coordinate.git'
+                    developerConnection 'https://github.com/kozzion/ar-coordinate.git'
+                    url siteUrl
+
+                }
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+task findConventions << {
+    println project.getConvention()
 }

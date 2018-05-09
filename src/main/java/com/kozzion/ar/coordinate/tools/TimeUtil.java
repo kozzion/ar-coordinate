@@ -108,7 +108,7 @@ public static Date calculateGregorianDate(double jd) {
   }
 
   /**
-   * Normalize the angle to the range 0 <= value < 360.
+   * Normalize the angle to the range 0 &lt;= value &gt; 360.
    */
   public static double normalizeAngle(double angle) {
     double remainder = angle % 360;
@@ -117,7 +117,7 @@ public static Date calculateGregorianDate(double jd) {
   }
 
   /**
-   * Normalize the time to the range 0 <= value < 24.
+   * Normalize the time to the range 0 &lt;= value &gt; 24.
    */
   public static double normalizeHours(double time) {
     double remainder = time % 24;
