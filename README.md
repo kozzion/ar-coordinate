@@ -7,17 +7,17 @@ https://github.com/kozzion/ar-demo
 
 ## Including
 to your root build.gradle make use to include jitpack
-allprojects {
-    repositories {
-        google()
-        jcenter()
-        maven {
-            url 'https://jitpack.io' //This one here
-        }
-    }
-}
+	allprojects {
+		repositories {
+			google()
+			jcenter()
+			maven {
+				url 'https://jitpack.io' //This one here
+			}
+		}
+	}
 then in your app build.gradle
-implementation 'com.github.kozzion:ar-coordinate:1.0.5'
+	implementation 'com.github.kozzion:ar-coordinate:1.0.5'
 
 There is also a bintray and a jcenter but they are a terrible mess
 https://bintray.com/kozzion/ar/coordinate/
