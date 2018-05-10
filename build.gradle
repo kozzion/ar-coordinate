@@ -1,5 +1,4 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
     
     repositories {
@@ -8,8 +7,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.2'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.0'
-		classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0' // Add this line
     }
 }
 
@@ -17,12 +15,12 @@ repositories {
     google()
     jcenter()
 }
-
-group = 'com.kozzion.ar'
-version = '1.0.4'
+group='com.github.kozzion'
+//group = 'com.kozzion.ar'
+version = '1.0.5'
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
+//apply plugin: 'com.jfrog.bintray'
 
 android {
     compileSdkVersion 27
@@ -31,8 +29,8 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 4
-        versionName "1.0.4"
+        versionCode 5
+        versionName "1.0.5"
     }
     buildTypes {
         release {
@@ -42,58 +40,6 @@ android {
     }
 }
 
-
-def siteUrl = 'https://github.com/kozzion/ar-coordinate'
-def gitUrl = 'https://github.com/kozzion/ar-coordinate.git'
-
-bintray {
-    user = btuser
-    key =  btkey
-
-    configurations = ['archives'] //When uploading configuration files
-    pkg {
-        repo = 'ar'
-        name = 'coordinate'
-        desc = 'kozzion ar library for coordinate conversions'
-        websiteUrl = siteUrl
-        issueTrackerUrl = 'https://github.com/kozzion/ar-coordinate.git/issues'
-        vcsUrl = gitUrl
-        licenses = ['Apache-2.0']
-        labels = ['aar', 'ar', 'android']
-        publicDownloadNumbers = true
-    }
-}
-
-install {
-    repositories.mavenInstaller {
-        pom {
-            project {
-                packaging 'aar'
-                name 'kozzion ar library for coordinate conversions'
-                url siteUrl
-                licenses {
-                    license {
-                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id 'kozzion'
-                        name 'Jaap Oosterbroek'
-                        email 'jaap.oosterbroek@gmail.com'
-                    }
-                }
-                scm {
-                    connection 'https://github.com/kozzion/ar-coordinate.git'
-                    developerConnection 'https://github.com/kozzion/ar-coordinate.git'
-                    url siteUrl
-
-                }
-            }
-        }
-    }
-}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
