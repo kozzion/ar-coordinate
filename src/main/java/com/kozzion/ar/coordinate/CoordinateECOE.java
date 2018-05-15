@@ -15,48 +15,35 @@
 package com.kozzion.ar.coordinate;
 
 
+import com.kozzion.ar.coordinate.model.ModelPerspective;
 import com.kozzion.ar.coordinate.tools.Geometry;
 import com.kozzion.ar.coordinate.tools.MathUtil;
 
-/**
- * This class wraps the six parameters which define the path an object takes as
- * it orbits the sun.
- *
- * The equations come from JPL's Solar System Dynamics site:
- * http://ssd.jpl.nasa.gov/?planet_pos
- * 
- * The original source for the calculations is based on the approximations described in:
- * Van Flandern T. C., Pulkkinen, K. F. (1979): "Low-Precision Formulae for
- * Planetary Positions", 1979, Astrophysical Journal Supplement Series, Vol. 41,
- * pp. 391-411.
- * 
- * 
- * @author Kevin Serafini
- * @author Brent Bryan
- */
 
-public class CoordinateOE {
+
+//Eart Centric Orbital elements
+public class CoordinateECOE {
   // calculation error
   private final static float EPSILON = 1.0e-6f;
 
-  public final float distance;       // Mean distance (AU)
+  public final float mDistance;       // Mean mDistance (AU)
   public final float eccentricity;   // Eccentricity of orbit
   public final float inclination;    // Inclination of orbit (AngleUtils.RADIANS)
   public final float ascendingNode;  // Longitude of ascending node (AngleUtils.RADIANS)
   public final float perihelion;     // Longitude of perihelion (AngleUtils.RADIANS)
-  public final float meanLongitude;  // Mean longitude (AngleUtils.RADIANS)
+  public final float mMeanLongitude;  // Mean longitude (AngleUtils.RADIANS)
 
-  public CoordinateOE(float d, float e, float i, float a, float p, float l) {
-    this.distance = d;
-    this.eccentricity = e;
-    this.inclination = i;
-    this.ascendingNode = a;
-    this.perihelion = p;
-    this.meanLongitude = l;
+  public CoordinateECOE(float distance, float eccentricity, float inclination, float ascendingNode, float perihelion, float meanLongitude) {
+    this.mDistance = distance;
+    this.eccentricity = eccentricity;
+    this.inclination = inclination;
+    this.ascendingNode = ascendingNode;
+    this.perihelion = perihelion;
+    this.mMeanLongitude = meanLongitude;
   }
 
   public float getAnomaly() {
-    return calculateTrueAnomaly(meanLongitude - perihelion, eccentricity);
+    return calculateTrueAnomaly(mMeanLongitude - perihelion, eccentricity);
   }
   
   // compute the true anomaly from mean anomaly using iteration
@@ -89,7 +76,7 @@ public class CoordinateOE {
   {
     float anomaly = getAnomaly();
     float ecc = eccentricity;
-    float radius = distance * (1 - ecc * ecc) / (1 + ecc * MathUtil.cos(anomaly));
+    float radius = mDistance * (1 - ecc * ecc) / (1 + ecc * MathUtil.cos(anomaly));
 
     // heliocentric rectangular coordinates of planet
     float per = perihelion;
@@ -108,15 +95,25 @@ public class CoordinateOE {
     return new CoordinateHEEQ( xh, yh, zh);
   }
 
+  public CoordinateScreen convertToScreen(ModelPerspective perspective)
+  {
+    return convertToHEEQ()
+            .convertToRAD(perspective.mDate)
+            .convertToAE(perspective.mLocation, perspective.mDate)
+            .convertToENU()
+            .convertToCamera(perspective.mRotatedProjectionMatrix)
+            .convertToScreen(perspective.mGridWidth, perspective.mGridWidth);
+  }
+
   @Override
   public String toString() {
     StringBuffer sb = new StringBuffer();
-    sb.append("Mean Distance: " + distance + " (AU)\n");
+    sb.append("Mean Distance: " + mDistance + " (AU)\n");
     sb.append("Eccentricity: " + eccentricity + "\n");
     sb.append("Inclination: " + inclination + " (AngleUtils.RADIANS)\n");
     sb.append("Ascending Node: " + ascendingNode + " (AngleUtils.RADIANS)\n");
     sb.append("Perihelion: " + perihelion + " (AngleUtils.RADIANS)\n");
-    sb.append("Mean Longitude: " + meanLongitude + " (AngleUtils.RADIANS)\n");
+    sb.append("Mean Longitude: " + mMeanLongitude + " (AngleUtils.RADIANS)\n");
 
     return sb.toString();
   }

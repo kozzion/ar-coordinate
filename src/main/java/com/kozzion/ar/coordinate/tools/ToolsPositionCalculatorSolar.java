@@ -16,7 +16,7 @@ package com.kozzion.ar.coordinate.tools;
 
 import com.kozzion.ar.coordinate.CoordinateHEEQ;
 import com.kozzion.ar.coordinate.CoordinateRAD;
-import com.kozzion.ar.coordinate.provider.ProviderPlanet;
+import com.kozzion.ar.coordinate.provider.ProviderSolar;
 
 import java.util.Date;
 
@@ -33,12 +33,5 @@ public class ToolsPositionCalculatorSolar {
 
     CoordinateHEEQ planetCoordinates = new CoordinateHEEQ(0,0, 0);
     return planetCoordinates.convertToRAD(time);
-  }
-
-  public static CoordinateRAD getUranusPosition(Date time) {
-
-    CoordinateHEEQ planetCoordinates = ProviderPlanet.getOrbitalElements(ProviderPlanet.Planet.Uranus, time).convertToHEEQ();
-    return planetCoordinates.convertToRAD(time);
-
   }
 }

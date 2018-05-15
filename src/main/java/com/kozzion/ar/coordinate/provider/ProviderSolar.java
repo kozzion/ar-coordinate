@@ -16,7 +16,7 @@ package com.kozzion.ar.coordinate.provider;
 
 import com.kozzion.ar.coordinate.CoordinateRAD;
 import com.kozzion.ar.coordinate.CoordinateHEEQ;
-import com.kozzion.ar.coordinate.CoordinateOE;
+import com.kozzion.ar.coordinate.CoordinateHCOE;
 import com.kozzion.ar.coordinate.CoordinateWGS84;
 import com.kozzion.ar.coordinate.tools.Geometry;
 import com.kozzion.ar.coordinate.tools.MathUtil;
@@ -28,9 +28,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class ProviderPlanet {
+public class ProviderSolar {
 
-  public enum Planet
+  public enum SolarObject
   {
     Pluto,
     Neptune,
@@ -44,18 +44,6 @@ public class ProviderPlanet {
   }
 
 
-  public enum LunarPhase
-  {
-    NewMoon,
-    WaxingQuarter,
-    WaxingHalf,
-    WaxingThreeQuarters,
-    FullMoon,
-    WaningThreeQuarters,
-    WaningHalf,
-    WaningQuarter,
-  }
-
 
 
 
@@ -63,11 +51,11 @@ public class ProviderPlanet {
   // This gives us a good approximation for the years 1800 to 2050 AD. Which, to be honest,
   // is over the expected lifetime of this library, if you live you live in 2050 and are using
   // this code get in your flying car and go find someone who can do a better job
-  public static CoordinateOE getOrbitalElements(Planet planet, Date date) {
+  public static CoordinateHCOE getCoordinate(SolarObject solarObject, Date date) {
     // Centuries since J2000
     float jc = (float) TimeUtil.julianCenturies(date);
 
-    switch (planet) {
+    switch (solarObject) {
       case Mercury: {
         float a = 0.38709927f + 0.00000037f * jc;
         float e = 0.20563593f + 0.00001906f * jc;
@@ -76,7 +64,7 @@ public class ProviderPlanet {
             Geometry.mod2pi((252.25032350f + 149472.67411175f * jc) * Geometry.DEGREES_TO_RADIANS);
         float w = (77.45779628f + 0.16047689f * jc) * Geometry.DEGREES_TO_RADIANS;
         float o = (48.33076593f - 0.12534081f * jc) * Geometry.DEGREES_TO_RADIANS;
-        return new CoordinateOE(a, e, i, o, w, l);
+        return new CoordinateHCOE(a, e, i, o, w, l);
       }
 
       case Venus: {
@@ -87,7 +75,7 @@ public class ProviderPlanet {
             Geometry.mod2pi((181.97909950f + 58517.81538729f * jc) * Geometry.DEGREES_TO_RADIANS);
         float w = (131.60246718f + 0.00268329f * jc) * Geometry.DEGREES_TO_RADIANS;
         float o = (76.67984255f - 0.27769418f * jc) * Geometry.DEGREES_TO_RADIANS;
-        return new CoordinateOE(a, e, i, o, w, l);
+        return new CoordinateHCOE(a, e, i, o, w, l);
       }
 
       // Note that this is the orbital data for Earth.
@@ -99,7 +87,7 @@ public class ProviderPlanet {
             Geometry.mod2pi((100.46457166f + 35999.37244981f * jc) * Geometry.DEGREES_TO_RADIANS);
         float w = (102.93768193f + 0.32327364f * jc) * Geometry.DEGREES_TO_RADIANS;
         float o = 0.0f;
-        return new CoordinateOE(a, e, i, o, w, l);
+        return new CoordinateHCOE(a, e, i, o, w, l);
       }
 
       case Mars: {
@@ -110,7 +98,7 @@ public class ProviderPlanet {
             Geometry.mod2pi((-4.55343205f + 19140.30268499f * jc) * Geometry.DEGREES_TO_RADIANS);
         float w = (-23.94362959f + 0.44441088f * jc) * Geometry.DEGREES_TO_RADIANS;
         float o = (49.55953891f - 0.29257343f * jc) * Geometry.DEGREES_TO_RADIANS;
-        return new CoordinateOE(a, e, i, o, w, l);
+        return new CoordinateHCOE(a, e, i, o, w, l);
       }
 
       case Jupiter: {
@@ -121,7 +109,7 @@ public class ProviderPlanet {
             Geometry.mod2pi((34.39644051f + 3034.74612775f * jc) * Geometry.DEGREES_TO_RADIANS);
         float w = (14.72847983f + 0.21252668f * jc) * Geometry.DEGREES_TO_RADIANS;
         float o = (100.47390909f + 0.20469106f * jc) * Geometry.DEGREES_TO_RADIANS;
-        return new CoordinateOE(a, e, i, o, w, l);
+        return new CoordinateHCOE(a, e, i, o, w, l);
       }
 
       case Saturn: {
@@ -132,7 +120,7 @@ public class ProviderPlanet {
             Geometry.mod2pi((49.95424423f + 1222.49362201f * jc) * Geometry.DEGREES_TO_RADIANS);
         float w = (92.59887831f - 0.41897216f * jc) * Geometry.DEGREES_TO_RADIANS;
         float o = (113.66242448f - 0.28867794f * jc) * Geometry.DEGREES_TO_RADIANS;
-        return new CoordinateOE(a, e, i, o, w, l);
+        return new CoordinateHCOE(a, e, i, o, w, l);
       }
 
       case Uranus: {
@@ -143,7 +131,7 @@ public class ProviderPlanet {
             Geometry.mod2pi((313.23810451f + 428.48202785f * jc) * Geometry.DEGREES_TO_RADIANS);
         float w = (170.95427630f + 0.40805281f * jc) * Geometry.DEGREES_TO_RADIANS;
         float o = (74.01692503f + 0.04240589f * jc) * Geometry.DEGREES_TO_RADIANS;
-        return new CoordinateOE(a, e, i, o, w, l);
+        return new CoordinateHCOE(a, e, i, o, w, l);
       }
 
       case Neptune: {
@@ -154,7 +142,7 @@ public class ProviderPlanet {
             Geometry.mod2pi((-55.12002969f + 218.45945325f * jc) * Geometry.DEGREES_TO_RADIANS);
         float w = (44.96476227f - 0.32241464f * jc) * Geometry.DEGREES_TO_RADIANS;
         float o = (131.78422574f - 0.00508664f * jc) * Geometry.DEGREES_TO_RADIANS;
-        return new CoordinateOE(a, e, i, o, w, l);
+        return new CoordinateHCOE(a, e, i, o, w, l);
       }
 
       case Pluto: {
@@ -165,11 +153,11 @@ public class ProviderPlanet {
             Geometry.mod2pi((238.92903833f + 145.20780515f * jc) * Geometry.DEGREES_TO_RADIANS);
         float w = (224.06891629f - 0.04062942f * jc) * Geometry.DEGREES_TO_RADIANS;
         float o = (110.30393684f - 0.01183482f * jc) * Geometry.DEGREES_TO_RADIANS;
-        return new CoordinateOE(a, e, i, o, w, l);
+        return new CoordinateHCOE(a, e, i, o, w, l);
       }
 
       default:
-        throw new RuntimeException("Unknown Planet: " + planet);
+        throw new RuntimeException("Unknown SolarObject: " + solarObject);
     }
   }
 
@@ -182,7 +170,7 @@ public class ProviderPlanet {
    * an approximation as described on page D22 of the 2008 Astronomical Almanac
    * All of the variables in this method use the same names as those described
    * in the text: lambda = Ecliptic longitude (degrees) beta = Ecliptic latitude
-   * (degrees) pi = horizontal parallax (degrees) r = distance (Earth radii)
+   * (degrees) pi = horizontal parallax (degrees) r = mDistance (Earth radii)
    *
    * NOTE: The text does not give a specific time period where the approximation
    * is valid, but it should be valid through at least 2009.
@@ -252,8 +240,8 @@ public class ProviderPlanet {
    * @return New Calendar set to the next rise or set time if within
    *         the next day, otherwise null.
    */
-  public static Calendar calcNextRiseSetTime(Planet planet, Calendar now,CoordinateWGS84 loc,
-                                      RiseSetIndicator indicator) {
+  public static Calendar calcNextRiseSetTime(SolarObject planet, Calendar now, CoordinateWGS84 loc,
+                                             RiseSetIndicator indicator) {
     // Make a copy of the calendar to return.
     Calendar riseSetTime = Calendar.getInstance();
     double riseSetUt = calcRiseSetTime(planet, now.getTime(), loc, indicator);
@@ -285,8 +273,8 @@ public class ProviderPlanet {
 
   // Internally calculate the rise and set time of an object.
   // Returns a double, the number of hours through the day in UT.
-  private static double calcRiseSetTime(Planet planet, Date dateTime, CoordinateWGS84 loc,
-                                 RiseSetIndicator indicator) {
+  private static double calcRiseSetTime(SolarObject planet, Date dateTime, CoordinateWGS84 loc,
+                                        RiseSetIndicator indicator) {
     Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UT"));
     cal.setTime(dateTime);
 
@@ -304,7 +292,7 @@ public class ProviderPlanet {
       // Calculate the hour angle and declination of the planet.
       // TODO(serafini): Need to fix this for arbitrary RA/Dec locations.
       Date tmp = cal.getTime();
-      CoordinateHEEQ sunCoordinates = getOrbitalElements(Planet.Earth, tmp).convertToHEEQ();
+      CoordinateHEEQ sunCoordinates = getCoordinate(SolarObject.Earth, tmp).convertToHEEQ();
       CoordinateRAD raDec = null;//RaDec.getInstance(planet, tmp, sunCoordinates); //TODO check if this even works
 
       // GHA = GST - RA. (In degrees.)
@@ -313,7 +301,7 @@ public class ProviderPlanet {
 
       // The value of -0.83 works for the diameter of the Sun and Moon. We
       // assume that other objects are simply points.
-      //float bodySize = (this == ProviderPlanet.Sun || this == ProviderPlanet.Moon) ? -0.83f : 0.0f;
+      //float bodySize = (this == ProviderSolar.Sun || this == ProviderSolar.Moon) ? -0.83f : 0.0f;
       //TODO the moon is now a satalite
       float bodySize = -0.83f;
       float hourAngle = calculateHourAngle(bodySize, (float) Math.toDegrees(loc.mLatitudeRadian), (float) Math.toDegrees(raDec.mDeclenationRadians));

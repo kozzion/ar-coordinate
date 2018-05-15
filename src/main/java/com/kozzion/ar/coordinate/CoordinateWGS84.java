@@ -2,6 +2,8 @@ package com.kozzion.ar.coordinate;
 
 import android.graphics.Canvas;
 
+import com.kozzion.ar.coordinate.model.ModelPerspective;
+
 /**
  * Created by jaapo on 27-4-2018.
  */
@@ -42,9 +44,10 @@ public class CoordinateWGS84 {
 
     }
 
-    public CoordinateScreen convertToScreen(CoordinateWGS84 currentLocationWSG84, float[] rotatedProjectionMatrix, Canvas canvas) {
-        CoordinateENU coordinateENU = convertToWCEF().convertToENU(currentLocationWSG84);
-        CoordinateCamera coordinateCamera = coordinateENU.convertToCamera(rotatedProjectionMatrix);
-        return coordinateCamera.convertToScreen(canvas);
+    public CoordinateScreen convertToScreen(ModelPerspective perspective) {
+        return convertToWCEF()
+                .convertToENU(perspective.mLocation)
+                .convertToCamera(perspective.mRotatedProjectionMatrix)
+                .convertToScreen(perspective.mGridWidth, perspective.mGridHeigth);
     }
 }

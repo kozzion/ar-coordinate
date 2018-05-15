@@ -19,9 +19,9 @@ public class CoordinateCamera {
         mS = s;
     }
 
-    public CoordinateScreen convertToScreen(Canvas canvas) {
-        double x  = (0.5f + mX/mS) * canvas.getWidth();
-        double y = (0.5f - mY/mS) * canvas.getHeight();
+    public CoordinateScreen convertToScreen(double gridWidth, double gridHeigth) {
+        double x  = (0.5f + mX/mS) * gridWidth;
+        double y = (0.5f - mY/mS) * gridHeigth;
         return new CoordinateScreen(x,y,mZ);
     }
 }

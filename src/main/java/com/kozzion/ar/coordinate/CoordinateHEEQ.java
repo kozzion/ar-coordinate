@@ -14,7 +14,7 @@
 
 package com.kozzion.ar.coordinate;
 
-import com.kozzion.ar.coordinate.provider.ProviderPlanet;
+import com.kozzion.ar.coordinate.provider.ProviderSolar;
 import com.kozzion.ar.coordinate.tools.Geometry;
 import com.kozzion.ar.coordinate.tools.MathUtil;
 import com.kozzion.ar.coordinate.tools.Vector3;
@@ -46,7 +46,7 @@ public class CoordinateHEEQ extends Vector3 {
 
   public CoordinateRAD convertToRAD(Date time)
   {
-    CoordinateHEEQ earthHEEQ = ProviderPlanet.getOrbitalElements(ProviderPlanet.Planet.Earth, time).convertToHEEQ();
+    CoordinateHEEQ earthHEEQ = ProviderSolar.getCoordinate(ProviderSolar.SolarObject.Earth, time).convertToHEEQ();
     CoordinateHEEQ coords = Subtract(earthHEEQ);
     CoordinateHEEQ equ = coords.CalculateEquatorialCoordinates();
     return equ.convertToRAD();

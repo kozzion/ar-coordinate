@@ -1,6 +1,7 @@
 package com.kozzion.ar.coordinate;
 
 import com.kozzion.ar.coordinate.tools.TimeUtil;
+import com.kozzion.ar.coordinate.model.ModelPerspective;
 
 import java.util.Date;
 
@@ -40,6 +41,14 @@ public class CoordinateRAD {
         } else {
             return new CoordinateAE(azimuthRadians, elevationRadians);
         }
+    }
+
+    public CoordinateScreen convertToScreen(ModelPerspective perspective)
+    {
+        return convertToAE(perspective.mLocation, perspective.mDate)
+                .convertToENU()
+                .convertToCamera(perspective.mRotatedProjectionMatrix)
+                .convertToScreen(perspective.mGridWidth, perspective.mGridWidth);
     }
 
     public String toString() {
