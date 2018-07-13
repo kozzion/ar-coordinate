@@ -22,4 +22,16 @@ public class ModelPerspective {
         mGridWidth = gridWidth;
         mGridHeigth = gridHeigth;
     }
+
+    public String toString() {
+        return mDate.toString() + "\n" + mLocation.toString() + "\n" + string(mRotatedProjectionMatrix) + "\n" + mGridWidth + " "  + mGridHeigth;
+    }
+
+    private String string(float[] mRotatedProjectionMatrix) {
+        String s = "";
+        for (int i = 0; i < mRotatedProjectionMatrix.length; i++) {
+            s = s +  mRotatedProjectionMatrix[i] + "  ";
+        }
+        return s;
+    }
 }

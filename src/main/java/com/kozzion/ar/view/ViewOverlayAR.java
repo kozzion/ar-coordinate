@@ -62,6 +62,8 @@ public class ViewOverlayAR extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        //
+        //Log.e("ViewOverlayAR", "onDraw: ");
         Date date = new Date(new Date().getTime() + mTimeOffset);
 
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -71,20 +73,12 @@ public class ViewOverlayAR extends View {
         paint.setTextSize(60);
 
         ModelPerspective perspectiveAR = new ModelPerspective(date, mObserverLocation, rotatedProjectionMatrix, canvas.getWidth(), canvas.getHeight());
-
-
+        //Log.e("OVERLAY", "onDraw: " +perspectiveAR.toString() );
 
 
         CoordinateRAD suna = ToolsPositionCalculatorSolar.getSolarPosition(date );
         CoordinateScreen sunas = suna.convertToScreen(perspectiveAR);
         drawPoint(canvas, sunas, paint, "SUN");
-
-        //onDraw: east: -0.9523489655818351 north: 0.3050105699073537 up: 0.10662305186859597
-        CoordinateRAD sunb = new CoordinateRAD(Math.toRadians(49.46517),Math.toRadians(18.235355));
-       // Log.e("sunenu", "onDraw: " + sunb.convertToAE(mObserverLocation, date).convertToENU().toString());
-
-        CoordinateScreen sunbs = new CoordinateRAD(Math.toRadians(49.46517),Math.toRadians(18.235355)).convertToScreen(perspectiveAR);
-        drawPoint(canvas, sunbs, paint, "SUNB");
 
         CoordinateScreen mdl = ProviderTerrestrial.getCoordinate("Medellin").convertToScreen(perspectiveAR);
         drawPoint(canvas, mdl, paint, "MDL");
@@ -95,16 +89,18 @@ public class ViewOverlayAR extends View {
         CoordinateScreen csur = ProviderSolar.getCoordinate(ProviderSolar.SolarObject.Uranus, date).convertToScreen(perspectiveAR);
         drawPoint(canvas, csur, paint, "UR");
 
-        CoordinateScreen csm74 = ProviderStellar.getCoordinate(ProviderStellar.StellarObject.M74).convertToScreen(perspectiveAR);
+        CoordinateScreen csm74 = ProviderStellar.getCoordinate("M74").convertToScreen(perspectiveAR);
         drawPoint(canvas, csm74, paint, "M74");
 
-        CoordinateScreen csmal = ProviderStellar.getCoordinate(ProviderStellar.StellarObject.ALDEBARAN).convertToScreen(perspectiveAR);
+        CoordinateScreen csmal = ProviderStellar.getCoordinate("Aldebaran").convertToScreen(perspectiveAR);
         drawPoint(canvas, csmal, paint, "ALDEBARAN");
     }
 
     public void drawPoint(Canvas canvas, CoordinateScreen coordinateScreen, Paint paint, String text)
     {
         canvas.drawCircle((float)coordinateScreen.mX, (float)coordinateScreen.mY, 15, paint);
+        //Log.e("drawPoint", "drawPoint: " + coordinateScreen.mX + " " + coordinateScreen.mY);
+        //canvas.rotate(90);
         canvas.drawText(text, (float)coordinateScreen.mX - (30 * text.length() / 2), (float)coordinateScreen.mY - 80, paint);
 
     }

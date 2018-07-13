@@ -50,4 +50,8 @@ public class CoordinateWGS84 {
                 .convertToCamera(perspective.mRotatedProjectionMatrix)
                 .convertToScreen(perspective.mGridWidth, perspective.mGridHeigth);
     }
+
+    public String toString() {
+        return "latitude (deg): " + Math.toDegrees(mLatitudeRadian) + " longitude (deg): " +  Math.toDegrees(mLongitudeRadian) + "  altitudeMeter (meter): " + mAltitudeMeter;
+    }
 }

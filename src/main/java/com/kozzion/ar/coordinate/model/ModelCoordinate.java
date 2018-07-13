@@ -12,8 +12,18 @@ import com.kozzion.ar.coordinate.CoordinateWGS84;
 
 public class ModelCoordinate {
 
+    public static final int TYPE_WGS84 = 0;
+    public static final int TYPE_ECOE = 1;
+    public static final int TYPE_HCOE = 2;
+    public static final int TYPE_RAD = 3;
+
+
+
     public String mKey;
     public String mName;
+    public int mType;
+
+
     public CoordinateWGS84 mCoordinateTerrestrial;
     public CoordinateECOE mCoordinateEarthCentric;
     public CoordinateHCOE mCoordinateHelioCentric;
@@ -31,6 +41,9 @@ public class ModelCoordinate {
         } else {
             return mCoordinateStellar.convertToScreen(perspective);
         }
+    }
+    public int getType() {
+        return mType;
     }
 
 
